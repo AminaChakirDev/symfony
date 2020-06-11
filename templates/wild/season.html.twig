@@ -15,9 +15,9 @@
             </ul>
         </div>
     </div>
-    <a href="{{ path('wild_index') }}">
-        Retour à l'accueil
-    </a>
+    <a href="{{ path('wild_index') }}">Retour à l'accueil</a>
+    <br>
+    <a href="{{ path('wild_show_program', { 'programName': program.title }) }}">Voir toutes les saisons</a>
 
 {% endblock %}
 
