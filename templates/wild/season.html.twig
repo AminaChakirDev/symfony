@@ -10,7 +10,7 @@
             <p>{{ season.description }}</p>
             <p>List of episodes</p>
             <ul>{% for episode in episodes %}
-                    <li><a href="#">Episode {{ episode.number }}</a> : {{ episode.title }}<br>{{ episode.synopsis }}</li>
+                    <li><a href="{{ path('wild_show_episode', { 'id': episode.id }) }}">Episode {{ episode.number }}</a> : {{ episode.title }}<br>{{ episode.synopsis }}</li>
                 {% endfor %}
             </ul>
         </div>
