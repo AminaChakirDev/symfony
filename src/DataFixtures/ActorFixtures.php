@@ -34,11 +34,13 @@ class ActorFixtures extends Fixture
 
         $faker = Faker\Factory::create('en_US');
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 6; $i < 56; $i++) {
             $actorFaker = new Actor();
             $actorFaker->setName($faker->name);
 
             $manager->persist($actorFaker);
+
+            $this->addReference('actor_' . $i, $actorFaker);
 
         }
 
