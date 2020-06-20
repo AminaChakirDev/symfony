@@ -34,7 +34,7 @@ class ActorFixtures extends Fixture
 
         $faker = Faker\Factory::create('en_US');
 
-        for ($i = 1; $i < 10; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $actorFaker = new Actor();
             $actorFaker->setName($faker->name);
 
