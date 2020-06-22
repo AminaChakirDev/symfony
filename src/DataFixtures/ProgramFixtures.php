@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 
 
 use App\Entity\Program;
+use App\Service\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -20,36 +21,42 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'category' => 'categorie_3',
             'country' => 'US',
             'year' => '2000',
+            'slug' => 'Walking Dead',
         ],
         'The Haunting of Hill House' => [
             'summary' => 'Flashing between past and present, a fractured family confronts haunting memories of their old home and the terrifying events that drove them from it.',
             'category' => 'categorie_3',
             'country' => 'US',
             'year' => '2000',
+            'slug' => 'The Haunting of Hill House',
         ],
         'American Horror Story' => [
             'summary' => 'An anthology series centering on different characters and locations, including a house with a murderous past, an insane asylum, a witch coven, a freak show circus, a haunted hotel, a possessed farmhouse, a cult, the apocalypse, and a slasher summer camp.',
             'category' => 'categorie_3',
             'country' => 'US',
             'year' => '2000',
+            'slug' => 'American Horror Story',
         ],
         'Love Death and Robots' => [
             'summary' => 'A collection of animated short stories that span various genres including science fiction, fantasy, horror and comedy.',
             'category' => 'categorie_3',
             'country' => 'US',
             'year' => '2000',
+            'slug' => 'Love Death and Robots',
         ],
         'Penny Dreadful' => [
             'summary' => 'Explorer Sir Malcolm Murray, American gunslinger Ethan Chandler, scientist Victor Frankenstein and medium Vanessa Ives unite to combat supernatural threats in Victorian London.',
             'category' => 'categorie_3',
             'country' => 'US',
             'year' => '2000',
+            'slug' => 'Penny Dreadful',
         ],
         'Fear The Walking Dead' => [
             'summary' => 'A Walking Dead spin-off, set in Los Angeles, following two families who must band together to survive the undead apocalypse.',
             'category' => 'categorie_3',
             'country' => 'US',
             'year' => '2000',
+            'slug' => 'Fear The Walking Dead',
         ],
     ];
 
@@ -61,6 +68,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $slugify = new Slugify();
         $i=0;
         foreach (self::PROGRAMS as $title => $data) {
             $program = new Program();
@@ -68,6 +76,9 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setSummary($data['summary']);
             $program->setCountry($data['country']);
             $program->setYear($data['year']);
+
+            $slug = $slugify->generate($title);
+            $program->setSlug($slug);
 
             $manager->persist($program);
             $this->addReference('program_' . $i, $program);
