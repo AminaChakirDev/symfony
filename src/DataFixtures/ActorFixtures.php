@@ -8,8 +8,9 @@ use App\Entity\Actor;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class ActorFixtures extends Fixture
+class ActorFixtures extends Fixture implements DependentFixtureInterface
 {
 
     const ACTORS = [
@@ -21,6 +22,11 @@ class ActorFixtures extends Fixture
         'Josh Hartnett',
     ];
 
+    public function getDependencies()
+    {
+        return [ProgramFixtures::class];
+    }
+
     public function load(ObjectManager $manager)
     {
         foreach (self::ACTORS as $key => $actorName) {
@@ -28,19 +34,19 @@ class ActorFixtures extends Fixture
             $actor->setName($actorName);
 
             $manager->persist($actor);
-
+            $actor->addProgram($this->getReference('program_' . $key));
             $this->addReference('actor_' . $key, $actor);
         }
 
         $faker = Faker\Factory::create('en_US');
 
-        for ($i = 6; $i < 56; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $actorFaker = new Actor();
             $actorFaker->setName($faker->name);
 
             $manager->persist($actorFaker);
-
-            $this->addReference('actor_' . $i, $actorFaker);
+            $actorFaker->addProgram($this->getReference('program_' . rand(0,5)));
+            $this->setReference('actor_' . $i, $actorFaker);
 
         }
 
